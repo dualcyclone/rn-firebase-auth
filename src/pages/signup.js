@@ -7,20 +7,19 @@ import React, {
   View
 } from 'react-native';
 
+import Firebase from 'firebase';
+
 import Button from '../components/button';
 import Header from '../components/header';
 
 import Login from './login';
 
-import Firebase from 'firebase';
-
-let app = new Firebase("YOUR-FIREBASE-APP-URL");
-
 import styles from '../styles/common-styles.js';
 
-export default class signup extends Component {
+let app = new Firebase('YOUR-FIREBASE-APP-URL');
 
-	constructor(props){
+export default class signup extends Component {
+	constructor(props) {
 		super(props);
 
 		this.state = {
@@ -30,8 +29,7 @@ export default class signup extends Component {
 		};
 	}
 
-  signup(){
-    
+  signup() {
     this.setState({
       loaded: false
     });
@@ -41,22 +39,22 @@ export default class signup extends Component {
       'password': this.state.password
     }, (error, userData) => {
       
-      if(error){
-        switch(error.code){
+      if (error) {
+        switch (error.code) {
 
-          case "EMAIL_TAKEN":
-            alert("The new user account cannot be created because the email is already in use.");
+          case 'EMAIL_TAKEN':
+            alert('The new user account cannot be created because the email is already in use.');
           break;
           
-          case "INVALID_EMAIL":
-            alert("The specified email is not a valid email.");
+          case 'INVALID_EMAIL':
+            alert('The specified email is not a valid email.');
           break;
           
           default:
-            alert("Error creating user:");
+            alert('Error creating user:');
         }
 
-      }else{
+      } else {
         alert('Your account was created!');
       }
 
@@ -78,34 +76,32 @@ export default class signup extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header text="Signup" loaded={this.state.loaded} />
-        <View style={styles.body}>
-          
+      <View style={ styles.container }>
+        <Header text='Signup' loaded={ this.state.loaded } />
+        <View style={ styles.body }>
   		    <TextInput
-    		    style={styles.textinput}
-    		    onChangeText={(text) => this.setState({email: text})}
-    		    value={this.state.email}
-            placeholder={"Email Address"}
+    		    style={ styles.textinput }
+    		    onChangeText={ (text) => this.setState({email: text}) }
+    		    value={ this.state.email }
+            placeholder={ 'Email Address' }
   		    />
           <TextInput
-            style={styles.textinput}
-            onChangeText={(text) => this.setState({password: text})}
-            value={this.state.password}
-            secureTextEntry={true}
-            placeholder={"Password"}
+            style={ styles.textinput }
+            onChangeText={ (text) => this.setState({password: text}) }
+            value={ this.state.password }
+            secureTextEntry={ true }
+            placeholder={ 'Password' }
           />
           <Button 
-            text="Signup" 
-            onpress={this.signup.bind(this)} 
-            button_styles={styles.primary_button} 
-            button_text_styles={styles.primary_button_text} />
-
+            text='Signup' 
+            onpress={ this.signup.bind(this) } 
+            button_styles={ styles.primary_button } 
+            button_text_styles={ styles.primary_button_text } />
           <Button 
-            text="Got an Account?" 
-            onpress={this.goToLogin.bind(this)} 
-            button_styles={styles.transparent_button} 
-            button_text_styles={styles.transparent_button_text} />
+            text='Got an Account?' 
+            onpress={ this.goToLogin.bind(this) } 
+            button_styles={ styles.transparent_button } 
+            button_text_styles={ styles.transparent_button_text } />
         </View>
       </View>
     );

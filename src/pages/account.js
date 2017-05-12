@@ -1,6 +1,5 @@
 'use strict';
 import React, {
-  AppRegistry,
   Component,
   StyleSheet,
   Text,
@@ -9,6 +8,8 @@ import React, {
   AsyncStorage
 } from 'react-native';
 
+import Firebase from 'firebase';
+
 import Button from '../components/button';
 import Header from '../components/header';
 
@@ -16,23 +17,18 @@ import Login from './login';
 
 import styles from '../styles/common-styles.js';
 
-import Firebase from 'firebase';
-
-let app = new Firebase("YOUR-FIREBASE-APP-URL");
+let app = new Firebase('YOUR-FIREBASE-APP-URL');
 
 export default class account extends Component {
-
-  constructor(props){
-
+  constructor(props) {
     super(props);
+
     this.state = { 
       loaded: false,
     }
-
   }
 
-  componentWillMount(){
-    
+  componentWillMount() {
     AsyncStorage.getItem('user_data').then((user_data_json) => {
       let user_data = JSON.parse(user_data_json); 
       this.setState({
@@ -40,30 +36,28 @@ export default class account extends Component {
         loaded: true
       });
     });
-
   }
 
   render(){
-
     return (
-      <View style={styles.container}>
-        <Header text="Account" loaded={this.state.loaded} />  
-        <View style={styles.body}>
+      <View style={ styles.container }>
+        <Header text='Account' loaded={ this.state.loaded } />
+        <View style={ styles.body }>
         {
           this.state.user && 
-            <View style={styles.body}>
-              <View style={page_styles.email_container}>
-                <Text style={page_styles.email_text}>{this.state.user.password.email}</Text>
+            <View style={ styles.body }>
+              <View style={ page_styles.email_container }>
+                <Text style={ page_styles.email_text }>{ this.state.user.password.email }</Text>
               </View>
               <Image
-                style={styles.image}
-                source={{uri: this.state.user.password.profileImageURL}}
+                style={ styles.image }
+                source={{ uri: this.state.user.password.profileImageURL }}
               />
               <Button 
-                  text="Logout" 
-                  onpress={this.logout.bind(this)} 
-                  button_styles={styles.primary_button} 
-                  button_text_styles={styles.primary_button_text} />
+                  text='Logout' 
+                  onpress={ this.logout.bind(this) }
+                  button_styles={ styles.primary_button }
+                  button_text_styles={ styles.primary_button_text } />
             </View>
         }
         </View>
@@ -72,16 +66,13 @@ export default class account extends Component {
   }
 
   logout(){
-
     AsyncStorage.removeItem('user_data').then(() => {    
       app.unauth();
       this.props.navigator.push({
         component: Login
       });
     });
-    
   }
-
 }
 
 const page_styles = StyleSheet.create({
