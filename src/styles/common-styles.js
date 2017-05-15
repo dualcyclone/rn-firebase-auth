@@ -1,21 +1,24 @@
 'use strict';
-import React, {
+import {
   StyleSheet
 } from 'react-native';
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   body: {
     flex: 9,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   textinput: {
     height: 40, 
     borderColor: 'red', 
-    borderWidth: 1
+    borderWidth: 1,
+    marginRight: 10,
+    marginLeft: 10,
+    alignSelf: 'stretch'
   },
   transparent_button: {
     marginTop: 10,

@@ -1,28 +1,25 @@
 'use strict';
-import React, {
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
-  Text,
   TextInput,
   View,
   AsyncStorage
 } from 'react-native';
 
-import Firebase from 'firebase';
-
 import Button from '../components/button';
 import Header from '../components/header';
 
-import Signup from './signup';
 import Account from './account';
+import Signup from './signup';
 
 import styles from '../styles/common-styles.js';
-
-let app = new Firebase('YOUR-FIREBASE-APP-URL');
 
 export default class login extends Component {
   constructor(props) {
     super(props);
+
+    this.firebase = props.firebase;
 
     this.state = {
       email: '',
@@ -38,13 +35,13 @@ export default class login extends Component {
         <View style={ styles.body }>
           <TextInput
             style={ styles.textinput }
-            onChangeText={ (text) => this.setState({email: text}) }
+            onChangeText={ (text) => this.setState({ email: text }) }
             value={ this.state.email }
             placeholder={ 'Email Address' }
           />
           <TextInput
             style={ styles.textinput }
-            onChangeText={ (text) => this.setState({password: text}) }
+            onChangeText={ (text) => this.setState({ password: text }) }
             value={ this.state.password }
             secureTextEntry={ true }
             placeholder={ 'Password' }
@@ -64,33 +61,32 @@ export default class login extends Component {
     );
   }
 
-  login() {
+  login(){
     this.setState({
       loaded: false
     });
 
-    app.authWithPassword({
-      email: this.state.email,
-      password: this.state.password
-    }, (error, user_data) => {
+    this.firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
       this.setState({
         loaded: true
       });
 
-      if (error) {
+      this.props.navigator.push({
+        component: Account,
+        user: user,
+        firebase: this.firebase
+      });
+    }).catch(function(error) {
+      if(error){
         alert('Login Failed. Please try again');
-      } else {
-        AsyncStorage.setItem('user_data', JSON.stringify(user_data));
-        this.props.navigator.push({
-          component: Account
-        });
       }
     });
   }
 
   goToSignup(){
     this.props.navigator.push({
-      component: Signup
+      component: Signup,
+      firebase: this.firebase
     });
   }
 }

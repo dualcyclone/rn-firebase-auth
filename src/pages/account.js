@@ -1,14 +1,12 @@
 'use strict';
-import React, {
-  Component,
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   View,
   Image,
   AsyncStorage
 } from 'react-native';
-
-import Firebase from 'firebase';
 
 import Button from '../components/button';
 import Header from '../components/header';
@@ -17,24 +15,23 @@ import Login from './login';
 
 import styles from '../styles/common-styles.js';
 
-let app = new Firebase('YOUR-FIREBASE-APP-URL');
-
 export default class account extends Component {
   constructor(props) {
     super(props);
 
+    this.firebase = props.firebase;
+    console.log('**** USER? ',props.user)
+
     this.state = { 
       loaded: false,
+      user: null
     }
   }
 
   componentWillMount() {
-    AsyncStorage.getItem('user_data').then((user_data_json) => {
-      let user_data = JSON.parse(user_data_json); 
-      this.setState({
-        user: user_data,
-        loaded: true
-      });
+    this.setState({
+      loaded: true,
+      user: this.props.user
     });
   }
 
@@ -47,12 +44,14 @@ export default class account extends Component {
           this.state.user && 
             <View style={ styles.body }>
               <View style={ page_styles.email_container }>
-                <Text style={ page_styles.email_text }>{ this.state.user.password.email }</Text>
+                <Text style={ page_styles.email_text }>{ this.state.user.email }</Text>
               </View>
-              <Image
-                style={ styles.image }
-                source={{ uri: this.state.user.password.profileImageURL }}
-              />
+              { this.state.user.photoURL &&
+                  <Image
+                    style={ styles.image }
+                    source={{uri: this.state.user.photoURL}}
+                  />
+              }
               <Button 
                   text='Logout' 
                   onpress={ this.logout.bind(this) }
@@ -66,11 +65,13 @@ export default class account extends Component {
   }
 
   logout(){
-    AsyncStorage.removeItem('user_data').then(() => {    
-      app.unauth();
+    this.firebase.auth().signOut().then(() => {
       this.props.navigator.push({
-        component: Login
+        component: Login,
+        firebase : this.firebase
       });
+    }).catch((error) => {
+      alert('Failed to logout....');
     });
   }
 }

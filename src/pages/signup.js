@@ -1,26 +1,25 @@
 'use strict';
-import React, {
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
-  Text,
   TextInput,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
-
-import Firebase from 'firebase';
 
 import Button from '../components/button';
 import Header from '../components/header';
 
+import Account from './account';
 import Login from './login';
 
 import styles from '../styles/common-styles.js';
 
-let app = new Firebase('YOUR-FIREBASE-APP-URL');
-
 export default class signup extends Component {
 	constructor(props) {
 		super(props);
+
+		this.firebase = props.firebase;
 
 		this.state = {
       loaded: true,
@@ -34,43 +33,46 @@ export default class signup extends Component {
       loaded: false
     });
 
-    app.createUser({
-      'email': this.state.email,
-      'password': this.state.password
-    }, (error, userData) => {
-      
-      if (error) {
-        switch (error.code) {
-
-          case 'EMAIL_TAKEN':
-            alert('The new user account cannot be created because the email is already in use.');
-          break;
-          
-          case 'INVALID_EMAIL':
-            alert('The specified email is not a valid email.');
-          break;
-          
-          default:
-            alert('Error creating user:');
-        }
-
-      } else {
-        alert('Your account was created!');
-      }
-
+    this.firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password).then((user) => {
       this.setState({
-        email: '',
-        password: '',
         loaded: true
       });
 
+      this.props.navigator.push({
+        component: Account,
+        user: user,
+        firebase: this.firebase
+      });
+    }).catch((error) => {
+      if(error){
+        switch(error.code){
+          case "auth/email-already-in-use":
+            alert("The new user account cannot be created because the email is already in use.");
+            break;
+
+          case "auth/invalid-email":
+            alert("The specified email is not a valid email.");
+            break;
+
+          default:
+            alert("Error creating user:");
+            console.log(error)
+        }
+      }
+    });
+
+    this.setState({
+      email: '',
+      password: '',
+      loaded: true
     });
 
   }
 
-  goToLogin(){
+  goToLogin() {
     this.props.navigator.push({
-      component: Login
+      component: Login,
+      firebase: this.firebase
     });
   }
 

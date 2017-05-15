@@ -1,7 +1,7 @@
 'use strict';
-import React, {
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
   View,
   Navigator,
   AsyncStorage
@@ -16,35 +16,33 @@ import Header from './src/components/header';
 
 import styles from './src/styles/common-styles.js';
 
-let app = new Firebase('YOUR-FIREBASE-APP-URL');
-
 class rnfirebaseauth extends Component {
   constructor(props) {
     super(props);
 
+    const firebaseConfig = {};
+
+    this.firebase = Firebase.initializeApp(firebaseConfig);
+
     this.state = {
       component: null,
+      user: null,
       loaded: false
     };
   }
 
   componentWillMount() {
-    AsyncStorage.getItem('user_data').then((user_data_json) => {
+    let state = { component: null, firebase: this.firebase };
 
-      let user_data = JSON.parse(user_data_json);
-      let component = { component: Signup };
-
-      if (user_data != null) {
-        app.authWithCustomToken(user_data.token, (error, authData) => {
-          if (error) {
-            this.setState(component);
-          } else {
-            this.setState({ component: Account });
-          }
-        });
+    this.firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        state.component = Account;
+        state.user = user;
       } else {
-        this.setState(component);
+        state.component = Signup;
       }
+
+      this.setState(state);
     });
   }
 
@@ -52,13 +50,13 @@ class rnfirebaseauth extends Component {
     if (this.state.component) {
       return (
         <Navigator
-          initialRoute={{ component: this.state.component }}
+          initialRoute={{ component: this.state.component, user: this.state.user, firebase: this.firebase }}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}
           renderScene={(route, navigator) => {
             if (route.component) {
-              return React.createElement(route.component, { navigator });
+              return React.createElement(route.component, { navigator, user: route.user, firebase: route.firebase });
             }
           }}
         />
