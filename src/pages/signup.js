@@ -18,23 +18,17 @@ export default class signup extends Component {
 		super(props);
 
 		this.state = {
-      loaded: true,
 			email: '',
 			password: ''
 		};
 	}
 
   signup() {
-    this.setState({
-      loaded: false
-    });
+    this.props.handler({ loaded: false });
 
-    auth().createUserWithEmailAndPassword(this.state.email,this.state.password).then((user) => {
-      this.setState({
-        loaded: true
-      });
-    }).catch((error) => {
+    auth().createUserWithEmailAndPassword(this.state.email,this.state.password).catch((error) => {
       if(error){
+        this.props.handler({ loaded: true });
         switch(error.code){
           case "auth/email-already-in-use":
             alert("The new user account cannot be created because the email is already in use.");
@@ -53,10 +47,8 @@ export default class signup extends Component {
 
     this.setState({
       email: '',
-      password: '',
-      loaded: true
+      password: ''
     });
-
   }
 
   render() {

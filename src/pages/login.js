@@ -19,15 +19,14 @@ export default class login extends Component {
 
     this.state = {
       email: '',
-      password: '',
-      loaded: true
-    }
+      password: ''
+    };
   }
 
   render() {
     return (
       <View style={ styles.container }>
-        <Header text='Login' loaded={ this.state.loaded } />
+        <Header text='Login' />
         <View style={ styles.body }>
           <TextInput
             style={ styles.textinput }
@@ -52,16 +51,11 @@ export default class login extends Component {
     );
   }
 
-  login(){
-    this.setState({
-      loaded: false
-    });
+  login() {
+    this.props.handler({ loaded: false });
 
-    auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
-      this.setState({
-        loaded: true
-      });
-    }).catch(function(error) {
+    auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      this.props.handler({ loaded: true });
       if(error){
         alert('Login Failed. Please try again');
       }

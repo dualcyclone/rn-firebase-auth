@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 
 import Firebase, { auth } from 'firebase';
@@ -11,7 +12,6 @@ import Signup from './pages/signup';
 import Account from './pages/account';
 import Forgot from './pages/forgot';
 
-import Header from './components/header';
 import Button from './components/button';
 
 import styles from './styles/common-styles.js';
@@ -42,6 +42,8 @@ class rnfirebaseauth extends Component {
         state.component = Login;
       }
 
+      state.loaded = true;
+
       this.setState(state);
     });
   }
@@ -51,6 +53,7 @@ class rnfirebaseauth extends Component {
       <View style={ styles.container }>
         { this.renderBody() }
         { this.renderFooterButtons() }
+        { this.renderLoading() }
       </View>
     );
   }
@@ -58,10 +61,6 @@ class rnfirebaseauth extends Component {
   renderBody() {
     if (this.state.component) {
       return React.createElement(this.state.component, { user: this.state.user, handler: this.handler.bind(this) });
-    } else {
-      return (
-        <Header text='React Native Firebase Auth' loaded={ this.state.loaded }/>
-      );
     }
   }
 
@@ -76,23 +75,37 @@ class rnfirebaseauth extends Component {
         <Button
           text='Forgotten your password?'
           onpress={ this.goToForgotPassword.bind(this) }
-          button_styles={[ styles.transparent_button, styles.footer_btn_left ]}
-          button_text_styles={[ styles.transparent_button_text, styles.footer_btn_text_left ]} />
+          button_styles={[ styles.footer_btn, styles.footer_btn_left ]}
+          button_text_styles={[ styles.footer_btn_text, styles.footer_btn_text_left ]} />
         <Button
           text={ this.state.component === Login ? 'New here?' : 'Got an Account?' }
           onpress={ this.state.component === Login ? this.goToSignup.bind(this) : this.goToLogin.bind(this) }
-          button_styles={[ styles.transparent_button, styles.footer_btn_right ]}
-          button_text_styles={[ styles.transparent_button_text, styles.footer_btn_text_right ]} />
+          button_styles={[ styles.footer_btn, styles.footer_btn_right ]}
+          button_text_styles={[ styles.footer_btn_text, styles.footer_btn_text_right ]} />
       </View>
     );
   }
 
-  handler() {
-    if (this.state.component === Forgot) {
-      this.setState({
-        component: Login
-      });
+  renderLoading() {
+    if (!this.state.loaded || !this.state.component) {
+      return (
+        <View style={ styles.spinnerContainer }>
+          <ActivityIndicator style={ styles.spinner } size="large" color="rgb(89, 143, 219)"/>
+        </View>
+      );
     }
+  }
+
+  handler({ loaded }) {
+    let state = {};
+
+    if (this.state.component === Forgot) {
+      state.component = Login;
+    }
+
+    state.loaded = loaded === undefined ? true : loaded;
+
+    this.setState(state);
   }
 
   goToForgotPassword() {

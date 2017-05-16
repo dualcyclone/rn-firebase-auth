@@ -19,15 +19,14 @@ export default class forgot extends Component {
 
     this.state = {
       email: '',
-      password: '',
-      loaded: true
+      password: ''
     }
   }
 
   render() {
     return (
       <View style={ styles.container }>
-        <Header text='Login' loaded={ this.state.loaded } />
+        <Header text='Login' />
         <View style={ styles.body }>
           <TextInput
             style={ styles.textinput }
@@ -46,21 +45,16 @@ export default class forgot extends Component {
   }
 
   reset(){
-    this.setState({
-      loaded: false
-    });
+    this.props.handler({ loaded: false });
 
     auth().sendPasswordResetEmail(this.state.email).then(() => {
-      this.setState({
-        loaded: true
-      });
-
       alert('A password reset email has been sent');
 
       if (this.props.handler) {
         this.props.handler();
       }
     }).catch(function(error) {
+      this.props.handler({ loaded: true });
       if(error){
         alert('Password reset failed');
       }

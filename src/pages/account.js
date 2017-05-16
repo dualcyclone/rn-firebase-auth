@@ -21,15 +21,13 @@ export default class account extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
-      loaded: false,
+    this.state = {
       user: null
-    }
+    };
   }
 
   componentWillMount() {
     this.setState({
-      loaded: true,
       user: this.props.user
     });
   }
@@ -37,7 +35,7 @@ export default class account extends Component {
   render(){
     return (
       <View style={ styles.container }>
-        <Header text='Account' loaded={ this.state.loaded } />
+        <Header text='Account' />
         <View style={ styles.body }>
         {
           this.state.user && 
@@ -64,9 +62,10 @@ export default class account extends Component {
   }
 
   logout(){
-    auth().signOut().then(() => {
-      // Currently doesn't do anything exciting :)
-    }).catch((error) => {
+    this.props.handler({ loaded: false });
+
+    auth().signOut().catch((error) => {
+      this.props.handler({ loaded: true });
       alert('Failed to logout....');
     });
   }
