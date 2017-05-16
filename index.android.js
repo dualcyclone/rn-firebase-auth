@@ -7,9 +7,9 @@ import {
   AsyncStorage
 } from 'react-native';
 
-import Firebase from 'firebase';
+import Firebase, { auth } from 'firebase';
 
-import Signup from './src/pages/signup';
+import Login from './src/pages/login';
 import Account from './src/pages/account';
 
 import Header from './src/components/header';
@@ -20,7 +20,14 @@ class rnfirebaseauth extends Component {
   constructor(props) {
     super(props);
 
-    const firebaseConfig = {};
+    const firebaseConfig = {
+      apiKey: "AIzaSyABPxpZrL3D3_KtOlH9TY_aQZGaaz-RF18",
+      authDomain: "metume-ebf84.firebaseapp.com",
+      databaseURL: "https://metume-ebf84.firebaseio.com",
+      projectId: "metume-ebf84",
+      storageBucket: "metume-ebf84.appspot.com",
+      messagingSenderId: "659023108025"
+    };
 
     this.firebase = Firebase.initializeApp(firebaseConfig);
 
@@ -32,14 +39,14 @@ class rnfirebaseauth extends Component {
   }
 
   componentWillMount() {
-    let state = { component: null, firebase: this.firebase };
+    let state = { component: null };
 
-    this.firebase.auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
         state.component = Account;
         state.user = user;
       } else {
-        state.component = Signup;
+        state.component = Login;
       }
 
       this.setState(state);
@@ -50,7 +57,7 @@ class rnfirebaseauth extends Component {
     if (this.state.component) {
       return (
         <Navigator
-          initialRoute={{ component: this.state.component, user: this.state.user, firebase: this.firebase }}
+          initialRoute={{ component: this.state.component, user: this.state.user }}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}

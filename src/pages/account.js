@@ -8,6 +8,8 @@ import {
   AsyncStorage
 } from 'react-native';
 
+import { auth } from 'firebase';
+
 import Button from '../components/button';
 import Header from '../components/header';
 
@@ -18,9 +20,6 @@ import styles from '../styles/common-styles.js';
 export default class account extends Component {
   constructor(props) {
     super(props);
-
-    this.firebase = props.firebase;
-    console.log('**** USER? ',props.user)
 
     this.state = { 
       loaded: false,
@@ -65,10 +64,9 @@ export default class account extends Component {
   }
 
   logout(){
-    this.firebase.auth().signOut().then(() => {
+    auth().signOut().then(() => {
       this.props.navigator.push({
-        component: Login,
-        firebase : this.firebase
+        component: Login
       });
     }).catch((error) => {
       alert('Failed to logout....');

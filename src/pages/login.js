@@ -7,6 +7,8 @@ import {
   AsyncStorage
 } from 'react-native';
 
+import { auth } from 'firebase';
+
 import Button from '../components/button';
 import Header from '../components/header';
 
@@ -18,8 +20,6 @@ import styles from '../styles/common-styles.js';
 export default class login extends Component {
   constructor(props) {
     super(props);
-
-    this.firebase = props.firebase;
 
     this.state = {
       email: '',
@@ -66,15 +66,14 @@ export default class login extends Component {
       loaded: false
     });
 
-    this.firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+    auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
       this.setState({
         loaded: true
       });
 
       this.props.navigator.push({
         component: Account,
-        user: user,
-        firebase: this.firebase
+        user: user
       });
     }).catch(function(error) {
       if(error){
@@ -85,8 +84,7 @@ export default class login extends Component {
 
   goToSignup(){
     this.props.navigator.push({
-      component: Signup,
-      firebase: this.firebase
+      component: Signup
     });
   }
 }
