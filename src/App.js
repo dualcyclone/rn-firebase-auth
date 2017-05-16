@@ -1,8 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  View,
-  Navigator
+  View
 } from 'react-native';
 
 import Firebase, { auth } from 'firebase';
@@ -10,6 +9,7 @@ import Firebase, { auth } from 'firebase';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Account from './pages/account';
+import Forgot from './pages/forgot';
 
 import Header from './components/header';
 import Button from './components/button';
@@ -57,7 +57,7 @@ class rnfirebaseauth extends Component {
 
   renderBody() {
     if (this.state.component) {
-      return React.createElement(this.state.component, { user: this.state.user });
+      return React.createElement(this.state.component, { user: this.state.user, handler: this.handler.bind(this) });
     } else {
       return (
         <Header text='React Native Firebase Auth' loaded={ this.state.loaded }/>
@@ -87,8 +87,18 @@ class rnfirebaseauth extends Component {
     );
   }
 
+  handler() {
+    if (this.state.component === Forgot) {
+      this.setState({
+        component: Login
+      });
+    }
+  }
+
   goToForgotPassword() {
-    alert('Currently does nothing');
+    this.setState({
+      component: Forgot
+    });
   }
 
   goToSignup() {
