@@ -3,17 +3,13 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   TextInput,
-  View,
-  AsyncStorage
+  View
 } from 'react-native';
 
 import { auth } from 'firebase';
 
 import Button from '../components/button';
 import Header from '../components/header';
-
-import Account from './account';
-import Signup from './signup';
 
 import styles from '../styles/common-styles.js';
 
@@ -51,11 +47,6 @@ export default class login extends Component {
             onpress={ this.login.bind(this) }
             button_styles={ styles.primary_button }
             button_text_styles={ styles.primary_button_text } />
-          <Button 
-            text='New here?' 
-            onpress={ this.goToSignup.bind(this) }
-            button_styles={ styles.transparent_button }
-            button_text_styles={ styles.transparent_button_text } />
         </View>
       </View>
     );
@@ -70,21 +61,10 @@ export default class login extends Component {
       this.setState({
         loaded: true
       });
-
-      this.props.navigator.push({
-        component: Account,
-        user: user
-      });
     }).catch(function(error) {
       if(error){
         alert('Login Failed. Please try again');
       }
-    });
-  }
-
-  goToSignup(){
-    this.props.navigator.push({
-      component: Signup
     });
   }
 }

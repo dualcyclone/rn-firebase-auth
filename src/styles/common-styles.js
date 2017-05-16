@@ -40,5 +40,24 @@ module.exports = StyleSheet.create({
   image: {
     width: 100,
     height: 100
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    flexDirection: 'row',
+    flex: 1
+  },
+  footer_btn_left: {
+    flex: 3
+  },
+  footer_btn_text_left: {
+    textAlign: 'left'
+  },
+  footer_btn_right: {
+    flex: 2
+  },
+  footer_btn_text_right: {
+    textAlign: 'right'
   }
 });

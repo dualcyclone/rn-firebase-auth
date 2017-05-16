@@ -3,17 +3,13 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   TextInput,
-  View,
-  AsyncStorage
+  View
 } from 'react-native';
 
 import { auth } from 'firebase';
 
 import Button from '../components/button';
 import Header from '../components/header';
-
-import Account from './account';
-import Login from './login';
 
 import styles from '../styles/common-styles.js';
 
@@ -36,11 +32,6 @@ export default class signup extends Component {
     auth().createUserWithEmailAndPassword(this.state.email,this.state.password).then((user) => {
       this.setState({
         loaded: true
-      });
-
-      this.props.navigator.push({
-        component: Account,
-        user: user
       });
     }).catch((error) => {
       if(error){
@@ -68,12 +59,6 @@ export default class signup extends Component {
 
   }
 
-  goToLogin() {
-    this.props.navigator.push({
-      component: Login
-    });
-  }
-
   render() {
     return (
       <View style={ styles.container }>
@@ -97,11 +82,6 @@ export default class signup extends Component {
             onpress={ this.signup.bind(this) } 
             button_styles={ styles.primary_button } 
             button_text_styles={ styles.primary_button_text } />
-          <Button 
-            text='Got an Account?' 
-            onpress={ this.goToLogin.bind(this) } 
-            button_styles={ styles.transparent_button } 
-            button_text_styles={ styles.transparent_button_text } />
         </View>
       </View>
     );

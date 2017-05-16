@@ -65,9 +65,7 @@ export default class account extends Component {
 
   logout(){
     auth().signOut().then(() => {
-      this.props.navigator.push({
-        component: Login
-      });
+      // Currently doesn't do anything exciting :)
     }).catch((error) => {
       alert('Failed to logout....');
     });
