@@ -8,6 +8,8 @@ import {
 
 import { auth } from 'firebase';
 
+import Icon from 'react-native-vector-icons/EvilIcons';
+
 import Button from '../components/button';
 import Header from '../components/header';
 
@@ -23,16 +25,22 @@ export default class forgot extends Component {
   }
 
   render() {
+    const emailIcon = (<Icon name="envelope" size={30} color="#4b5764" style={{ position: 'absolute', top: 8, left: 8 }} />);
+
     return (
       <View style={ styles.container }>
         <View style={ styles.body }>
           <Header text='Forgotten password' />
-          <TextInput
-            style={[ styles.textinput, styles.textinput_top, styles.textinput_bottom ]}
-            onChangeText={ (text) => this.setState({ email: text }) }
-            value={ this.state.email }
-            placeholder={ 'Email Address' }
-          />
+          <View style={[ styles.textinput, styles.textinput_bottom, styles.textinput_top ]}>
+            <TextInput
+              underlineColorAndroid='transparent'
+              style={ styles.textinput_field }
+              onChangeText={ (text) => this.setState({ email: text }) }
+              value={ this.state.email }
+              placeholder={ 'Email Address' }
+            />
+            { emailIcon }
+          </View>
           <Button
             text='Reset password'
             onpress={ this.reset.bind(this) }
