@@ -26,8 +26,8 @@ export default class forgot extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Header text='Login' />
         <View style={ styles.body }>
+          <Header text='Login' />
           <TextInput
             style={ styles.textinput }
             onChangeText={ (text) => this.setState({ email: text }) }

@@ -54,8 +54,8 @@ export default class signup extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Header text='Signup' loaded={ this.state.loaded } />
         <View style={ styles.body }>
+          <Header text='Signup' />
   		    <TextInput
     		    style={ styles.textinput }
     		    onChangeText={ (text) => this.setState({email: text}) }

@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView
 } from 'react-native';
 
 import Firebase, { auth } from 'firebase';
@@ -50,11 +51,13 @@ class rnfirebaseauth extends Component {
 
   render() {
     return (
-      <View style={ styles.container }>
-        { this.renderBody() }
-        { this.renderFooterButtons() }
+      <KeyboardAvoidingView style={ styles.container } behavior="padding">
+        <View style={ styles.body_container }>
+          { this.renderBody() }
+        </View>
         { this.renderLoading() }
-      </View>
+        { this.renderFooterButtons() }
+      </KeyboardAvoidingView>
     );
   }
 

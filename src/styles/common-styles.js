@@ -7,10 +7,13 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1
   },
+  body_container: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   body: {
-    flex: 9,
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    alignItems: 'center'
   },
   textinput: {
     height: 40, 
