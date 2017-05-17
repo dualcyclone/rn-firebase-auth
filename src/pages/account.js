@@ -41,7 +41,7 @@ export default class account extends Component {
             this.state.user &&
               <View style={ styles.body }>
                 <View style={ page_styles.email_container }>
-                  <Text style={ page_styles.email_text }>{ this.state.user.email }</Text>
+                  <Text style={[ page_styles.email_text, styles.text ]}>{ this.state.user.email }</Text>
                 </View>
                 { this.state.user.photoURL &&
                     <Image

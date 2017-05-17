@@ -29,13 +29,13 @@ export default class login extends Component {
         <View style={ styles.body }>
           <Header text='Login' />
           <TextInput
-            style={ styles.textinput }
+            style={[ styles.textinput, styles.textinput_top ]}
             onChangeText={ (text) => this.setState({ email: text }) }
             value={ this.state.email }
             placeholder={ 'Email Address' }
           />
           <TextInput
-            style={ styles.textinput }
+            style={[ styles.textinput, styles.textinput_bottom ]}
             onChangeText={ (text) => this.setState({ password: text }) }
             value={ this.state.password }
             secureTextEntry={ true }
@@ -52,6 +52,11 @@ export default class login extends Component {
   }
 
   login() {
+    if (this.state.email === '' || this.state.password === '') {
+      alert('Login fields are empty. Please try again');
+      return;
+    }
+
     this.props.handler({ loaded: false });
 
     auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {

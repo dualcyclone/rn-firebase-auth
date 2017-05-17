@@ -5,7 +5,11 @@ import {
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#4b5764'
+  },
+  text: {
+    color: '#fff'
   },
   body_container: {
     flex: 1,
@@ -16,20 +20,32 @@ module.exports = StyleSheet.create({
     alignItems: 'center'
   },
   textinput: {
-    height: 40, 
-    borderColor: 'red', 
-    borderWidth: 1,
+    height: 40,
+    borderWidth: 0,
     marginRight: 10,
     marginLeft: 10,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    borderColor: 'transparent',
+    backgroundColor: '#fff'
+  },
+  textinput_top: {
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5
+  },
+  textinput_bottom: {
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5
   },
   primary_button: {
     margin: 10,
     padding: 15,
-    backgroundColor: '#529ecc'
+    backgroundColor: '#517399',
+    borderRadius: 5,
+    alignSelf: 'stretch'
   },
   primary_button_text: {
     color: '#FFF',
+    textAlign: 'center',
     fontSize: 18
   },
   image: {
@@ -48,8 +64,11 @@ module.exports = StyleSheet.create({
     padding: 15
   },
   footer_btn_text: {
-    color: '#0485A9',
-    fontSize: 14
+    color: '#fff',
+    fontSize: 14,
+    textDecorationLine: "underline",
+    textDecorationStyle: "dotted",
+    textDecorationColor: "#fff",
   },
   footer_btn_left: {
     flex: 3

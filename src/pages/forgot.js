@@ -18,8 +18,7 @@ export default class forgot extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: ''
+      email: ''
     }
   }
 
@@ -27,9 +26,9 @@ export default class forgot extends Component {
     return (
       <View style={ styles.container }>
         <View style={ styles.body }>
-          <Header text='Login' />
+          <Header text='Forgotten password' />
           <TextInput
-            style={ styles.textinput }
+            style={[ styles.textinput, styles.textinput_top, styles.textinput_bottom ]}
             onChangeText={ (text) => this.setState({ email: text }) }
             value={ this.state.email }
             placeholder={ 'Email Address' }
@@ -45,6 +44,11 @@ export default class forgot extends Component {
   }
 
   reset(){
+    if (this.state.email === '') {
+      alert('No email provided. Please try again');
+      return;
+    }
+
     this.props.handler({ loaded: false });
 
     auth().sendPasswordResetEmail(this.state.email).then(() => {

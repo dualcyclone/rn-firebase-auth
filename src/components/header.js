@@ -22,8 +22,9 @@ const styles = {
     marginBottom: 5
   },
   header_text: {
-    color: '#000',
-    fontSize: 18
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold'
   }
 };
 
