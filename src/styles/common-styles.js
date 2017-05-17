@@ -20,21 +20,25 @@ module.exports = StyleSheet.create({
     alignItems: 'center'
   },
   textinput: {
-    height: 40,
-    borderWidth: 0,
+    alignSelf: 'stretch',
     marginRight: 10,
     marginLeft: 10,
-    alignSelf: 'stretch',
+    height: 40,
+    borderWidth: 0,
     borderColor: 'transparent',
     backgroundColor: '#fff'
   },
   textinput_top: {
+    marginBottom: 1,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5
   },
   textinput_bottom: {
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5
+  },
+  textinput_field: {
+    paddingLeft: 40
   },
   primary_button: {
     margin: 10,
