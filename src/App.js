@@ -2,18 +2,18 @@
 import React, { Component } from 'react';
 import {
   View,
-  ActivityIndicator,
   KeyboardAvoidingView
 } from 'react-native';
 
 import Firebase, { auth } from 'firebase';
 
-import Login from './pages/login';
-import Signup from './pages/signup';
-import Account from './pages/account';
-import Forgot from './pages/forgot';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Account from './pages/Account';
+import ForgotPassword from './pages/ForgotPassword';
 
-import Button from './components/button';
+import Footer from './components/Footer';
+import LoadingSpinner from './components/LoadingSpinner';
 
 import styles from './styles/common-styles.js';
 
@@ -55,8 +55,8 @@ class rnfirebaseauth extends Component {
         <View style={ styles.body_container }>
           { this.renderBody() }
         </View>
-        { this.renderLoading() }
         { this.renderFooterButtons() }
+        <LoadingSpinner display={ !this.state.loaded || !this.state.component } />
       </KeyboardAvoidingView>
     );
   }
@@ -68,58 +68,42 @@ class rnfirebaseauth extends Component {
   }
 
   renderFooterButtons() {
-    // Don't show these buttons when on the Account view
-    if (this.state.component === Account) {
-      return;
-    }
-
     return (
-      <View style={ styles.footer }>
-        <Button
-          text='Forgotten your password?'
-          onpress={ this.goToForgotPassword.bind(this) }
-          button_styles={[ styles.footer_btn, styles.footer_btn_left ]}
-          button_text_styles={[ styles.footer_btn_text, styles.footer_btn_text_left ]} />
-        <Button
-          text={ this.state.component === Login ? 'New here?' : 'Got an Account?' }
-          onpress={ this.state.component === Login ? this.goToSignup.bind(this) : this.goToLogin.bind(this) }
-          button_styles={[ styles.footer_btn, styles.footer_btn_right ]}
-          button_text_styles={[ styles.footer_btn_text, styles.footer_btn_text_right ]} />
-      </View>
+      <Footer
+        display={ this.state.component !== Account }
+        leftButton={{
+          text: (this.state.component !== ForgotPassword ? 'Reset password' : 'Register'),
+          onPress: (this.state.component !== ForgotPassword ? this.goToForgotPassword.bind(this) : this.goToRegister.bind(this))
+        }}
+        rightButton={{
+          text: (this.state.component === Login ? 'Register' : 'Login'),
+          onPress: (this.state.component === Login ? this.goToRegister.bind(this) : this.goToLogin.bind(this))
+        }}
+      />
     );
   }
 
-  renderLoading() {
-    if (!this.state.loaded || !this.state.component) {
-      return (
-        <View style={ styles.spinnerContainer }>
-          <ActivityIndicator style={ styles.spinner } size="large" color="rgb(89, 143, 219)"/>
-        </View>
-      );
-    }
-  }
-
-  handler({ loaded }) {
+  handler({ loaded = true } = {}) {
     let state = {};
 
-    if (this.state.component === Forgot) {
+    if (this.state.component === ForgotPassword) {
       state.component = Login;
     }
 
-    state.loaded = loaded === undefined ? true : loaded;
+    state.loaded = loaded;
 
     this.setState(state);
   }
 
   goToForgotPassword() {
     this.setState({
-      component: Forgot
+      component: ForgotPassword
     });
   }
 
-  goToSignup() {
+  goToRegister() {
     this.setState({
-      component: Signup
+      component: Register
     });
   }
 

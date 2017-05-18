@@ -1,13 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Text,
   View,
   TouchableHighlight
 } from 'react-native';
 
-export default class button extends Component {
+export default class Button extends Component {
   render() {
     return (
       <TouchableHighlight underlayColor={ "#6b99ce" } onPress={ this.props.onpress } style={ this.props.button_styles }>
@@ -18,5 +17,3 @@ export default class button extends Component {
     );
   }
 }
-
-AppRegistry.registerComponent('button', () => button);

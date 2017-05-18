@@ -1,12 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Text,
   View
 } from 'react-native';
 
-export default class header extends Component {
+export default class Header extends Component {
   render() {
     return (
       <View style={ styles.header }>
@@ -27,5 +26,3 @@ const styles = {
     fontWeight: 'bold'
   }
 };
-
-AppRegistry.registerComponent('header', () => header);
