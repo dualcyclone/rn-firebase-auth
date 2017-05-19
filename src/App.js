@@ -27,7 +27,6 @@ class rnfirebaseauth extends Component {
 
     this.state = {
       component: null,
-      user: null,
       loaded: false
     };
   }
@@ -38,7 +37,6 @@ class rnfirebaseauth extends Component {
     auth().onAuthStateChanged((user) => {
       if (user) {
         state.component = Account;
-        state.user = user;
       } else {
         state.component = Login;
       }
@@ -63,7 +61,7 @@ class rnfirebaseauth extends Component {
 
   renderBody() {
     if (this.state.component) {
-      return React.createElement(this.state.component, { user: this.state.user, handler: this.handler.bind(this) });
+      return React.createElement(this.state.component, { handler: this.handler.bind(this) });
     }
   }
 

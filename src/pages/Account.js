@@ -23,7 +23,7 @@ export default class Account extends Component {
 
   componentWillMount() {
     this.setState({
-      user: this.props.user
+      user: auth().currentUser
     });
   }
 
