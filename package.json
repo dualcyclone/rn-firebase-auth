@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start-rn": "react-native start -- --reset-cache",
+    "fix-really-annoying-RN-breaking-issue": "npm install --save react@16.0.0-alpha.6",
+    "start-rn": "npm run fix-really-annoying-RN-breaking-issue;react-native start -- --reset-cache",
     "upgrade-rn": "react-native upgrade",
     "avd": "android avd",
     "android": "react-native run-android",
