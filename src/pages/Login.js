@@ -47,7 +47,7 @@ export default class Login extends Component {
 
     this.props.handler({ loaded: false });
 
-    auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+    auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
       this.props.handler();
 
       if (error) {
